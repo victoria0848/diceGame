@@ -18,9 +18,9 @@ export const DiceGame = () => {
       (type === "higher" && newDice > dice) ||
       (type === "lower" && newDice < dice)
     ) {
-      setResult("✅ Rigtigt!");
+      setResult("Rigtigt!");
     } else {
-      setResult("❌ Forkert!");
+      setResult("Forkert!");
     }
 
     setDice(newDice);
@@ -28,7 +28,7 @@ export const DiceGame = () => {
 
   return (
     <section className={styles.game}>
-      <h1>🎲 Højere eller Lavere</h1>
+      <h1>🎲 højere eller lavere</h1>
 
       <Dice value={dice} />
 
