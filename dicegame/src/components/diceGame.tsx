@@ -1,46 +1,92 @@
 import { useState, useRef } from "react";
 import { Dice } from "./dice";
 import { Controls } from "./controls";
+import volumeOn from "../assets/volume-on.png";
+import volumeOff from "../assets/volume-off.png";
 import styles from "./diceGame.module.scss";
 
 export const DiceGame = () => {
   const [dice, setDice] = useState<number>(rollDice());
-  const [result, setResult] = useState<string>("");
+  const [result, setResult] = useState("");
+  const [isMuted, setIsMuted] = useState<boolean>(() => {
+    return localStorage.getItem("muted") === "true";
+  });
 
-  const bgSound = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   function rollDice() {
     return Math.floor(Math.random() * 6) + 1;
   }
 
   function startSound() {
-    if (!bgSound.current) {
-      bgSound.current = new Audio("/bat-sound.mp3");
-      bgSound.current.loop = true;
-      bgSound.current.volume = 0.3;
-      bgSound.current.play();
+    if (!audioRef.current) {
+      audioRef.current = new Audio("/bat-sound.mp3");
+      audioRef.current.loop = true;
+      audioRef.current.volume = isMuted ? 0 : 0.3;
+      audioRef.current.play().catch(() => {});
     }
   }
 
+  function fadeVolume(target: number) {
+    if (!audioRef.current) return;
+
+    const step = target > audioRef.current.volume ? 0.02 : -0.02;
+
+    const interval = setInterval(() => {
+      if (!audioRef.current) return;
+
+      audioRef.current.volume = Math.max(
+        0,
+        Math.min(1, audioRef.current.volume + step)
+      );
+
+      if (
+        (step > 0 && audioRef.current.volume >= target) ||
+        (step < 0 && audioRef.current.volume <= target)
+      ) {
+        clearInterval(interval);
+      }
+    }, 30);
+  }
+
+  function toggleMute() {
+    if (!audioRef.current) return;
+
+    if (isMuted) {
+      fadeVolume(0.3);
+      localStorage.setItem("muted", "false");
+    } else {
+      fadeVolume(0);
+      localStorage.setItem("muted", "true");
+    }
+
+    setIsMuted(!isMuted);
+  }
+
   function handleGuess(type: "higher" | "lower") {
-    startSound(); // user interaction unlocks sound
+    startSound();
 
     const newDice = rollDice();
 
-    if (
+    setResult(
       (type === "higher" && newDice > dice) ||
-      (type === "lower" && newDice < dice)
-    ) {
-      setResult("Rigtigt gæt!");
-    } else {
-      setResult("Forkert gæt!");
-    }
+        (type === "lower" && newDice < dice)
+        ? "Rigtigt gæt!"
+        : "Forkert gæt!"
+    );
 
     setDice(newDice);
   }
 
   return (
     <section className={styles.game}>
+<button className={styles.mute} onClick={toggleMute}>
+  <img
+    src={isMuted ? volumeOff : volumeOn}
+    alt="Toggle sound"
+  />
+</button>
+
       <h1>🦇 Dice Game</h1>
 
       <Dice value={dice} />
