@@ -3,6 +3,7 @@ import { Dice } from "./dice";
 import { Controls } from "./controls";
 import volumeOn from "../assets/volume-on.png";
 import volumeOff from "../assets/volume-off.png";
+import batBg from "../assets/bat-bg.png"; // baggrundsbillede
 import styles from "./diceGame.module.scss";
 
 export const DiceGame = () => {
@@ -79,21 +80,25 @@ export const DiceGame = () => {
   }
 
   return (
-    <section className={styles.game}>
-<button className={styles.mute} onClick={toggleMute}>
-  <img
-    src={isMuted ? volumeOff : volumeOn}
-    alt="Toggle sound"
-  />
-</button>
+    <div className={styles.container}>
+      {/* Øverste højre mute-knap */}
+      <button className={styles.mute} onClick={toggleMute}>
+        <img src={isMuted ? volumeOff : volumeOn} alt="Toggle sound" />
+      </button>
 
-      <h1>🦇 Dice Game</h1>
+      {/* H1 
+      <h1 className={styles.title}>🦇 Dice Game</h1> */}
 
-      <Dice value={dice} />
+      <section className={styles.game}>
+        {/* Baggrundsbillede */}
+        <img src={batBg} className={styles.bg} alt="Baggrund" />
 
-      <Controls onGuess={handleGuess} />
+        <Dice value={dice} />
 
-      {result && <p className={styles.result}>{result}</p>}
-    </section>
+        <Controls onGuess={handleGuess} />
+
+        {result && <p className={styles.result}>{result}</p>}
+      </section>
+    </div>
   );
 };
