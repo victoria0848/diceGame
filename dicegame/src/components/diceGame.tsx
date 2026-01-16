@@ -3,7 +3,7 @@ import { Dice } from "./dice";
 import { Controls } from "./controls";
 import volumeOn from "../assets/volume-on.png";
 import volumeOff from "../assets/volume-off.png";
-import batBg from "../assets/bat-bg.png"; // baggrundsbillede
+import batBg from "../assets/bat-bg.png"; 
 import styles from "./diceGame.module.scss";
 
 export const DiceGame = () => {
@@ -81,7 +81,7 @@ export const DiceGame = () => {
 
   return (
     <div className={styles.container}>
-      {/* Øverste højre mute-knap */}
+      {/* mute button */}
       <button className={styles.mute} onClick={toggleMute}>
         <img src={isMuted ? volumeOff : volumeOn} alt="Toggle sound" />
       </button>
@@ -90,7 +90,6 @@ export const DiceGame = () => {
       <h1 className={styles.title}>🦇 Dice Game</h1> */}
 
       <section className={styles.game}>
-        {/* Baggrundsbillede */}
         <img src={batBg} className={styles.bg} alt="Baggrund" />
 
         <Dice value={dice} />
