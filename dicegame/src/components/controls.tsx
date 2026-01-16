@@ -1,9 +1,9 @@
-import styles from "./DiceGame.module.scss";
- 
+import styles from "./diceGame.module.scss";
+
 type Props = {
   onGuess: (type: "higher" | "lower") => void;
 };
- 
+
 export const Controls = ({ onGuess }: Props) => {
   return (
     <div className={styles.buttons}>
@@ -11,4 +11,4 @@ export const Controls = ({ onGuess }: Props) => {
       <button onClick={() => onGuess("lower")}>Lavere</button>
     </div>
   );
-}
+};

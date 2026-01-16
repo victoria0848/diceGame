@@ -1,11 +1,18 @@
+@use "../styles/variables" as *;
 @import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Jura:wght@300..700&family=Sedgwick+Ave&family=Syne:wght@400..800&family=UnifrakturMaguntia&display=swap');
-@use "./variables" as *;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
+  background-image: url("../assets/batbcc.jpg");
+  min-height: 100vh;
   background-color: $bg-page;
-  font-family: kå, Helvetica, sans-serif;
+  font-family: UnifrakturMaguntia, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
 }
